@@ -1,9 +1,15 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import {getCartTotal,removeCartItem,decreaseItemQuantity,increaseItemQuantity} from '../../RTK/Slices/CartSlices';
 
 const CartPage = () => {
     const {cart,totalQuantity,totalPrice}=useSelector((state)=>state.allCart);
-    console.log(cart)
+    const dispatch=useDispatch();
+    useEffect(() => {
+        dispatch(getCartTotal());
+    },[cart])
+    
+    
   return (
     <div>
         <section className="h-100 gradient-custom">
@@ -12,11 +18,11 @@ const CartPage = () => {
                 <div className="col-md-8">
                     <div className="card mb-4">
                         <div className="card-header py-3">
-                            <h5 className="mb-0">Cart - 2 items</h5>
+                            <h5 className="mb-0">Cart - {cart.length} items</h5>
                         </div>
                         <div className="card-body">
                             {cart.map((c)=>{
-                                console.log(c)
+                                // console.log(c)
                                 return (
                                    <div key={c.id}>
                                         <div className="row">
@@ -30,13 +36,20 @@ const CartPage = () => {
                                                 </div>
                                             </div>
                                             <div className="col-lg-5 col-md-6 mb-4 mb-lg-0">
-                                                <p><strong>{c.title}</strong></p>
-                                                                      
+                                                <p><strong>{c.title}</strong></p>   
+                                                <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                                                title="Remove item" onClick={()=>dispatch(removeCartItem(c))}>
+                                                    REMOVE
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
+                                                title="Move to the wish list">
+                                                <i class="fas fa-heart"></i>
+                                                </button>            
                                             </div>
 
                                             <div className="col-lg-4 col-md-6 mb-4 mb-lg-0">
                                                 <div className="d-flex mb-4" style={{maxWidth: "300px"}}>
-                                                <button className="btn btn-primary px-3 me-2"
+                                                <button className="btn btn-primary px-3 me-2" onClick={()=>dispatch(decreaseItemQuantity(c.id))}
                                                 >
                                                     -
                                                 </button>
@@ -46,6 +59,7 @@ const CartPage = () => {
                                                 </div>
 
                                                 <button className="btn btn-primary px-3 ms-2"
+                                                onClick={()=>dispatch(increaseItemQuantity(c.id))}
                                                 >
                                                 +   
                                                 </button>
@@ -83,11 +97,9 @@ const CartPage = () => {
                             className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                             <div>
                             <strong>Total amount</strong>
-                            <strong>
-                                <p className="mb-0">(including VAT)</p>
-                            </strong>
+                            
                             </div>
-                            <span><strong>Rs.</strong></span>
+                            <span><strong>Rs.{totalPrice}</strong></span>
                         </li>
                         </ul>
                         <button type="button" className="btn btn-primary btn-lg btn-block">

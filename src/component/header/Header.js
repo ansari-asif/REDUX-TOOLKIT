@@ -3,8 +3,11 @@ import React from 'react'
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+  const {cart}=useSelector((state)=>state.allCart);
+
   return (
     <div>
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -17,7 +20,7 @@ const Header = () => {
             </Navbar.Text>            
             <Navbar.Text>
               <Link to='/cart'>
-                <Button>Cart (0)</Button>
+                <Button>Cart ({cart.length})</Button>
               </Link>
             </Navbar.Text>
             </Navbar.Collapse>
