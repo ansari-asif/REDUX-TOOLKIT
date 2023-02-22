@@ -1,8 +1,8 @@
 import { Button } from 'react-bootstrap';
 import React from 'react'
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -12,15 +12,14 @@ const Header = () => {
             <Navbar.Brand href="#home">Brand</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-                <Nav.Link href="#features">PRODUCT LIST</Nav.Link>
-                <Nav.Link href="#pricing">Pricing</Nav.Link>
-                
-            </Nav>
-            <Nav>
-                <Nav.Link href="#deets"><Button>Cart (0)</Button></Nav.Link>
-                
-            </Nav>
+            <Navbar.Text>
+              <Link to='/'>Product List</Link>
+            </Navbar.Text>            
+            <Navbar.Text>
+              <Link to='/cart'>
+                <Button>Cart (0)</Button>
+              </Link>
+            </Navbar.Text>
             </Navbar.Collapse>
         </Container>
         </Navbar>
